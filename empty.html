@@ -1,0 +1,61 @@
+<html>
+<head>
+  <title>config-tool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: lightgray;
+      font-family: sans-serif;
+      margin: 5px;
+    }
+
+    .main {
+      max-width: 600px;
+      margin: auto;
+      position: relative;
+    }
+
+    .title {
+      background-color: darkgreen;
+      padding: 5px 20px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      z-index:1;
+      position: relative;
+    }
+
+    .content {
+      background-color: white;
+      margin: 0px 5px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      z-index:0;
+      position: relative;
+      padding: 15px 10px 10px;
+    }
+
+    @media (max-width:600px) {
+      .main {
+        width: 100%;
+      }
+      .content{
+        margin: 0px;
+      }
+      .title{
+        padding-top: 10px;
+      }
+      body {
+        margin: 0px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="main">
+  <div class="title">
+    <h1>config-tool</h1>
+  </div>
+  <div class="content">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pretium ultricies suscipit. Ut mi nunc, imperdiet ut varius nec, molestie non arcu. Proin eu tristique ligula, vitae sodales libero. Morbi eu quam id ligula cursus hendrerit ac nec nibh. Etiam aliquet velit sit amet convallis pellentesque. Pellentesque interdum elit eget sapien dignissim, non placerat purus elementum. Pellentesque mattis vel leo quis condimentum. Nullam pretium facilisis sollicitudin. Maecenas felis lectus, eleifend eu sollicitudin in, finibus ac tellus. Pellentesque fermentum varius orci, a ultricies sapien. Etiam in mattis ligula. Nulla in tortor lectus. Morbi tempus, dui a iaculis laoreet, orci massa ornare nunc, sed consequat urna dolor id sapien.
+  </div>
+</div>
+</body>
+</html>
