@@ -42,6 +42,15 @@ class Setting(object):
         else:
             return False
 
+    def __str__(self):
+        string = '{'
+        string = string + '"{}": "{}",\n'.format('key', self.key)
+        string = string + '"{}": "{}",\n'.format('value', self.value)
+        string = string + '"{}": "{}",\n'.format('title', self.title)
+        string = string + '"{}": "{}",\n'.format('text', self.text)
+        string = string[:-2] + '}'
+        return string
+
 
 class Settings(object):
     def __init__(self):
@@ -59,8 +68,8 @@ class Settings(object):
             return None
 
     def __str__(self):
-        string = '{'
+        string = '['
         for s in self.settings_list:
-            string = string + '"{}": "{}",\n'.format(s.key, s.value)
-        string = string[:-2] + '}'
+            string = string + '{},\n'.format(s)
+        string = string[:-2] + ']'
         return string

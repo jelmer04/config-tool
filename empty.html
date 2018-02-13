@@ -17,7 +17,7 @@
 
     .title {
       background-color: darkgreen;
-      padding: 5px 20px;
+      padding: 1px 20px;
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
       z-index:1;
       position: relative;
@@ -39,13 +39,18 @@
     input {
       width: 50%;
       float: right;
-      font-size: small;
+      font-size: medium;
+      font-family: monospace;
+      border: 2px solid lightgray;
+      border-radius: 3px;
+      background-color: white;
     }
 
     #submit {
       width: 100%;
       float: none;
-      font-size: medium;
+      font-size: large;
+      font-family: sans-serif;
     }
 
     .name{
@@ -70,14 +75,17 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script>
   $(function(){
-    $.getJSON("/settings/all", function(data) {
+    $.getJSON("/settings/all", function(settings) {
       var html = '';
-      $.each(data, function(key, value){
-        html += '<div class="setting"><span class="name">' + key + '</span>';
-        html += '<input type="text" name="'+key+'" value="'+value+'"/></div>';
-      });
-      html += '<br><input id="submit" type="submit" value="Save"/>'
-    $('#form').html(html);
+      //var settings = JSON.parse(data);
+
+      for (i in settings) {
+        s = settings[i];
+        html += '<div class="setting"><span class="name">' + s.title + ':</span>&nbsp&nbsp' + s.text;
+        html += '<input type="text" name="'+s.key+'" value="'+s.value+'"/></div>';
+      };
+      html += '<br><input id="submit" type="submit" value="Save"/>';
+      $('#form').html(html);
 
       $(':input').keyup(function() {
         var that = $(this)
@@ -98,6 +106,7 @@
         var input = $(this);
         if (input.attr('type') != 'submit') {
           $.get("/settings/"+input.attr('name')+"/write/"+input.val(), function(data) {
+            console.log(data);
             if (data == "False") {
               input.css("border", "2px solid red");
             } else {

@@ -12,9 +12,9 @@ from settings import *
 
 
 settings = Settings()
-settings.add(Setting('name', 'fred', verify=lambda x: type(x)== str))
-settings.add(Setting('age', 25, verify=lambda x: type(x)== int))
-settings.add(Setting('gender', 'male', verify=lambda x: x == 'male' or x =='female'))
+settings.add(Setting('name', 'fred', title='Name', text='Your name', verify=lambda x: type(x)== str))
+settings.add(Setting('age', 25, title='Age', text='Pick a number', verify=lambda x: type(x)== int))
+settings.add(Setting('gender', 'male', title='Gender', text='Male or Female', verify=lambda x: x == 'male' or x =='female'))
 
 
 class App(object):
