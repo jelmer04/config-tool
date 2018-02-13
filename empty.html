@@ -29,7 +29,27 @@
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
       z-index:0;
       position: relative;
-      padding: 15px 10px 10px;
+      padding: 15px 10px 1px;
+    }
+
+    .setting {
+      clear: both;
+    }
+
+    input {
+      width: 50%;
+      float: right;
+      font-size: small;
+    }
+
+    #submit {
+      width: 100%;
+      float: none;
+      font-size: medium;
+    }
+
+    .name{
+      font-size: larger;
     }
 
     @media (max-width:600px) {
@@ -47,6 +67,48 @@
       }
     }
   </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+  $(function(){
+    $.getJSON("/settings/all", function(data) {
+      var html = '';
+      $.each(data, function(key, value){
+        html += '<div class="setting"><span class="name">' + key + '</span>';
+        html += '<input type="text" name="'+key+'" value="'+value+'"/></div>';
+      });
+      html += '<br><input id="submit" type="submit" value="Save"/>'
+    $('#form').html(html);
+
+      $(':input').keyup(function() {
+        var that = $(this)
+        console.log($(this).attr('name')+': '+"/settings/"+$(this).attr('name')+"/verify/"+$(this).val());
+        $.get("/settings/"+$(this).attr('name')+"/verify/"+$(this).val(), function(data) {
+          console.log(data);
+          if (data == "False") {
+            that.css("border", "2px solid red");
+          } else {
+            that.css("border", "2px solid green");
+          }
+        });
+      });
+    });
+
+    $('#form').on('submit', function(e) {
+      $(':input').each(function() {
+        var input = $(this);
+        if (input.attr('type') != 'submit') {
+          $.get("/settings/"+input.attr('name')+"/write/"+input.val(), function(data) {
+            if (data == "False") {
+              input.css("border", "2px solid red");
+            } else {
+              input.css("border", "2px solid blue");
+            }
+          });
+        }
+      });
+    });
+  });
+  </script>
 </head>
 <body>
 <div class="main">
@@ -54,7 +116,7 @@
     <h1>config-tool</h1>
   </div>
   <div class="content">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pretium ultricies suscipit. Ut mi nunc, imperdiet ut varius nec, molestie non arcu. Proin eu tristique ligula, vitae sodales libero. Morbi eu quam id ligula cursus hendrerit ac nec nibh. Etiam aliquet velit sit amet convallis pellentesque. Pellentesque interdum elit eget sapien dignissim, non placerat purus elementum. Pellentesque mattis vel leo quis condimentum. Nullam pretium facilisis sollicitudin. Maecenas felis lectus, eleifend eu sollicitudin in, finibus ac tellus. Pellentesque fermentum varius orci, a ultricies sapien. Etiam in mattis ligula. Nulla in tortor lectus. Morbi tempus, dui a iaculis laoreet, orci massa ornare nunc, sed consequat urna dolor id sapien.
+    <form action="javascript:;" id="form"></form>
   </div>
 </div>
 </body>

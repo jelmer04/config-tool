@@ -1,5 +1,5 @@
 class Setting(object):
-    def __init__(self, key, value, title=None, text="",
+    def __init__(self, key, value, title=None, text="", type="text",
                  default=None, verify=lambda x: True):
 
         self.key = key
@@ -59,7 +59,8 @@ class Settings(object):
             return None
 
     def __str__(self):
-        string = ''
+        string = '{'
         for s in self.settings_list:
-            string = string + '{}: {}\n'.format(s.key, s.value)
+            string = string + '"{}": "{}",\n'.format(s.key, s.value)
+        string = string[:-2] + '}'
         return string

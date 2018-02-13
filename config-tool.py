@@ -1,11 +1,14 @@
 import cherrypy
+import json
 from settings import *
+
 
 # URL structure is:
 #   /key or /key/read
 #   /key/write/value
 #   /key/verify/value
 #   /key/default
+#   /all
 
 
 settings = Settings()
@@ -14,20 +17,31 @@ settings.add(Setting('age', 25, verify=lambda x: type(x)== int))
 settings.add(Setting('gender', 'male', verify=lambda x: x == 'male' or x =='female'))
 
 
+class App(object):
+    def __init__(self):
+        self.settings = SettingsEngine()
+
+    @cherrypy.expose
+    def index(self):
+        return open('empty.html')
+
+
 @cherrypy.popargs('key')
-class FunctionHost(object):
+class SettingsEngine(object):
     def __init__(self):
         self.write = Write()
         self.verify = Verify()
         self.default = Default()
-        self.debug = Debug()
 
     @cherrypy.expose(['read'])
     def index(self, key):
+        if key == 'all':
+            return str(settings)
         if key in settings.keys:
             return '{}'.format(settings.by_key(key).value)
         else:
             return '{} not found'.format(key)
+
 
 @cherrypy.popargs('val')
 class Write(object):
@@ -38,6 +52,7 @@ class Write(object):
         else:
             return '{} not found'.format(key)
 
+
 @cherrypy.popargs('val')
 class Verify(object):
     @cherrypy.expose
@@ -46,6 +61,7 @@ class Verify(object):
             return '{}'.format(settings.by_key(key).verify(val))
         else:
             return '{} not found'.format(key)
+
 
 class Default(object):
     @cherrypy.expose
@@ -56,10 +72,6 @@ class Default(object):
         else:
             return '{} not found'.format(key)
 
-class Debug(object):
-    @cherrypy.expose
-    def index(self, key):
-        return '{}'.format(settings)
 
 if __name__ == '__main__':
-    cherrypy.quickstart(FunctionHost())
+    cherrypy.quickstart(App())
